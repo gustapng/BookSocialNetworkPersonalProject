@@ -7,6 +7,18 @@
 
 import Foundation
 
-class WelcomeInteractor {
-    
+protocol WelcomeBusinessLogic {
+    func advanceStep()
+}
+
+final class WelcomeInteractor: WelcomeBusinessLogic {
+    private var currentStep: Int = 1
+    var presenter: WelcomePresenter?
+
+    func advanceStep() {
+        if currentStep < 3 {
+            currentStep += 1
+            presenter?.presentStep(currentStep)
+        }
+    }
 }

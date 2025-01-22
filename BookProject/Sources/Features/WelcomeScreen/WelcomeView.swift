@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @StateObject var presenter: WelcomePresenter
+    @ObservedObject var presenter: WelcomePresenter
+    var router: WelcomeRouter
 
     var body: some View {
         VStack(spacing: 0) {
@@ -16,30 +17,24 @@ struct WelcomeView: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color("Black"))
                     .frame(height: 400)
-                
+
                 VStack {
                     Spacer()
-                    
-                    Image("Illustration-1")
+
+                    Image("Illustration-\(presenter.currentStep)")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 300, height: 300)
                         .padding(.top, 36)
-                    
+
                     Spacer()
-                    
+
                     HStack {
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color("OffWhite"))
-                            .frame(width: 30, height: 8)
-                        
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color("Gray"))
-                            .frame(width: 8, height: 8)
-                        
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color("Gray"))
-                            .frame(width: 8, height: 8)
+                        ForEach(1...3, id: \.self) { step in
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(presenter.currentStep == step ? Color("OffWhite") : Color("Gray"))
+                                .frame(width: presenter.currentStep == step ? 30 : 8, height: 8)
+                        }
                     }
                     .padding(.bottom, 16)
                 }
@@ -47,40 +42,44 @@ struct WelcomeView: View {
             }
             .ignoresSafeArea(edges: .top)
             .padding(.bottom, -26)
-            
-            Text("The standard Lorem Ipsum 1")
+
+            Text(presenter.title)
                 .font(.system(size: 34,weight: .black))
                 .frame(maxWidth: 340, alignment: .leading)
                 .padding(.horizontal, 26)
-            
-            Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+
+            Text(presenter.description)
                 .font(.system(size: 14,weight: .medium))
                 .frame(maxWidth: 340, alignment: .leading)
                 .foregroundStyle(Color("Gray"))
                 .padding(.horizontal, 26)
                 .padding(.top)
-            
+
             Spacer()
-            
+
             HStack {
-                Button {
-                    presenter.skipTapped()
-                } label: {
-                    Text("Pular")
-                        .font(.system(size: 17, weight: .medium))
-                        .foregroundStyle(Color("Gray"))
-                        .padding(.vertical, 16)
-                        .frame(maxWidth: .infinity)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color("Gray"), lineWidth: 2)
-                        )
-                        
+                if presenter.shouldShowSkipButton {
+                    Button {
+                        router.navigateToLogin()
+                    } label: {
+                        Text("Pular")
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundStyle(Color("Gray"))
+                            .padding(.vertical, 16)
+                            .frame(maxWidth: .infinity)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("Gray"), lineWidth: 2)
+                            )
+                    }
                 }
-                .layoutPriority(1)
-                
+
                 Button {
-                    presenter.advanceTapped()
+                    if presenter.shouldShowSkipButton {
+                        presenter.interactor?.advanceStep()
+                    } else {
+                        router.navigateToLogin()
+                    }
                 } label: {
                     Text("Avançar")
                         .font(.system(size: 17, weight: .medium))
@@ -94,7 +93,6 @@ struct WelcomeView: View {
                                   .stroke(Color("Black"), lineWidth: 2)
                           )
                 }
-                .layoutPriority(1)
             }
             .padding(.horizontal, 26)
             .padding(.bottom, 26)
@@ -110,5 +108,7 @@ struct WelcomeView: View {
     let router = WelcomeRouter()
     let presenter = WelcomePresenter(interactor: interactor, router: router)
 
-    WelcomeView(presenter: presenter)
+    interactor.presenter = presenter
+
+    return WelcomeView(presenter: presenter, router: router)
 }
