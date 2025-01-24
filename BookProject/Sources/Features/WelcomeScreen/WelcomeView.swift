@@ -61,39 +61,17 @@ struct WelcomeView: View {
 
                 HStack {
                     if presenter.shouldShowSkipButton {
-                        Button {
+                        CustomOutlinedButton(title: "Pular") {
                             navigateToLogin = true
-                        } label: {
-                            Text("Pular")
-                                .font(.system(size: 17, weight: .medium))
-                                .foregroundStyle(Color("Gray"))
-                                .padding(.vertical, 16)
-                                .frame(maxWidth: .infinity)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color("Gray"), lineWidth: 2)
-                                )
                         }
                     }
 
-                    Button {
+                    CustomButton(title: "Avançar") {
                         if presenter.shouldShowSkipButton {
                             presenter.interactor?.advanceStep()
                         } else {
                             navigateToLogin = true
                         }
-                    } label: {
-                        Text("Avançar")
-                            .font(.system(size: 17, weight: .medium))
-                            .foregroundColor(Color("White"))
-                            .padding(.vertical, 16)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("Black"))
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color("Black"), lineWidth: 2)
-                            )
                     }
                 }
                 .padding(.horizontal, 26)
