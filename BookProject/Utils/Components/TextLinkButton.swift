@@ -7,16 +7,17 @@
 
 import SwiftUI
 
-struct TextButton: View {
+struct TextLinkButton: View {
     var title: String
+    var textColor: Color
     var action: () -> Void
-    var foregroundColor: Color = Color("Orange")
+    var fontSize: CGFloat = 15
 
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundColor(foregroundColor)
+                .font(.system(size: fontSize, weight: .medium))
+                .foregroundColor(textColor)
         }
     }
 }

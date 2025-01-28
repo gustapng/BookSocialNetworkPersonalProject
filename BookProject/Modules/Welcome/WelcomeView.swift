@@ -14,7 +14,7 @@ struct WelcomeView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
+            VStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color("Black"))
@@ -27,7 +27,7 @@ struct WelcomeView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300, height: 300)
-                            .padding(.top, 36)
+                            .padding(.top, AppSpacing.extraLarge)
 
                         Spacer()
 
@@ -38,24 +38,23 @@ struct WelcomeView: View {
                                     .frame(width: presenter.currentStep == step ? 30 : 8, height: 8)
                             }
                         }
-                        .padding(.bottom, 16)
+                        .padding(.bottom, AppSpacing.medium)
                     }
                     .frame(height: 400)
                 }
                 .ignoresSafeArea(edges: .top)
-                .padding(.bottom, -26)
+                .padding(.bottom, -AppSpacing.large)
 
-                Text(presenter.title)
-                    .font(.system(size: 34,weight: .black))
-                    .frame(maxWidth: 340, alignment: .leading)
-                    .padding(.horizontal, 26)
+                VStack(spacing: AppSpacing.medium) {
+                    Text(presenter.title)
+                        .font(AppFonts.welcomeTitle)
+                        .frame(maxWidth: 340, alignment: .leading)
 
-                Text(presenter.description)
-                    .font(.system(size: 14,weight: .medium))
-                    .frame(maxWidth: 340, alignment: .leading)
-                    .foregroundStyle(Color("Gray"))
-                    .padding(.horizontal, 26)
-                    .padding(.top)
+                    Text(presenter.description)
+                        .font(AppFonts.body)
+                        .frame(maxWidth: 340, alignment: .leading)
+                        .foregroundStyle(AppColors.gray)
+                }
 
                 Spacer()
 
@@ -74,8 +73,8 @@ struct WelcomeView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 26)
-                .padding(.bottom, 26)
+                .padding(.horizontal, AppSpacing.large)
+                .padding(.bottom, AppSpacing.large)
             }
             .onAppear {
                 presenter.viewDidLoad()

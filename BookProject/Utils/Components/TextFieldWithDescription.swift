@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomTextField: View {
+struct TextFieldWithDescription: View {
     var description: String
     var placeholder: String
     @Binding var text: String
@@ -18,18 +18,15 @@ struct CustomTextField: View {
                 .font(.system(size: 17,weight: .medium))
                 .foregroundColor(Color("DarkGray"))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 26)
 
             TextField(placeholder, text: $text)
                 .disableAutocorrection(true)
                 .padding()
                 .frame(height: 50)
-                .padding(.horizontal, 26)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                     .stroke(Color("Gray"), lineWidth: 1)
-                    .padding(.horizontal, 26)
                 )
         }
     }

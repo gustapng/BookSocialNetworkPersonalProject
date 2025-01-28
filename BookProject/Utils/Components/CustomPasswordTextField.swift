@@ -19,7 +19,6 @@ struct CustomTextFieldPassword: View {
                 .font(.system(size: 17,weight: .medium))
                 .foregroundColor(Color("DarkGray"))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 26)
 
             HStack {
                 if isPasswordVisible {
@@ -41,12 +40,10 @@ struct CustomTextFieldPassword: View {
                 .padding(.trailing, 16)
             }
             .frame(height: 50)
-            .padding(.horizontal, 26)
             .cornerRadius(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
                 .stroke(Color("Gray"), lineWidth: 1)
-                .padding(.horizontal, 26)
             )
         }
     }
