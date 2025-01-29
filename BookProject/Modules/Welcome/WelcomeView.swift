@@ -27,6 +27,8 @@ struct WelcomeView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300, height: 300)
+                            .transition(.opacity)
+                            .id(presenter.currentStep)
                             .padding(.top, AppSpacing.extraLarge)
 
                         Spacer()
@@ -48,13 +50,18 @@ struct WelcomeView: View {
                 VStack(spacing: AppSpacing.medium) {
                     Text(presenter.title)
                         .font(AppFonts.welcomeTitle)
-                        .frame(maxWidth: 340, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .transition(.opacity)
+                        .id("title-\(presenter.currentStep)")
 
                     Text(presenter.description)
                         .font(AppFonts.body)
-                        .frame(maxWidth: 340, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(AppColors.gray)
+                        .transition(.opacity)
+                        .id("description-\(presenter.currentStep)")
                 }
+                .padding(.horizontal, AppSpacing.large)
 
                 Spacer()
 
@@ -76,9 +83,9 @@ struct WelcomeView: View {
                 .padding(.horizontal, AppSpacing.large)
                 .padding(.bottom, AppSpacing.large)
             }
-            .onAppear {
-                presenter.viewDidLoad()
-            }
+//            .onAppear {
+//                presenter.viewDidLoad()
+//            }
             .navigationDestination(isPresented: $navigateToLogin) {
                 LoginView()
             }

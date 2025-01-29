@@ -12,4 +12,5 @@ enum AppSpacing {
     static let medium: CGFloat = 16
     static let large: CGFloat = 26
     static let extraLarge: CGFloat = 36
+    static let extraLargeBottomButton: CGFloat = 48
 }

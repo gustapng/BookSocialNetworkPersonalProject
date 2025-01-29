@@ -33,12 +33,13 @@ struct LoginView: View {
                 VStack(spacing: AppSpacing.large) {
                     TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
                     CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
+                    NavigationLink(destination: RegisterView()) {
+                        Text("Esqueceu sua senha?")
+                            .foregroundColor(AppColors.orange)
+                            .font(AppFonts.body)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
-
-                TextLinkButton(title: "Esqueceu sua senha?", textColor: AppColors.orange) {
-                    print("navigate to forget password")
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
 
                 Spacer()
 
@@ -66,8 +67,7 @@ struct LoginView: View {
                         print("login with google")
                     }
                 }
-
-                Spacer()
+                .padding(.vertical, AppSpacing.extraLargeBottomButton)
 
                 HStack {
                     Text("Não possuí conta?")

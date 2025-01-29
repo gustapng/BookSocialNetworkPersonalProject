@@ -11,7 +11,13 @@ import SwiftUI
 struct BookProjectApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let interactor = WelcomeInteractor()
+            let router = WelcomeRouter()
+            let presenter = WelcomePresenter(interactor: interactor, router: router)
+
+//            interactor.presenter = presenter
+
+            WelcomeView(presenter: presenter, router: router)
         }
     }
 }

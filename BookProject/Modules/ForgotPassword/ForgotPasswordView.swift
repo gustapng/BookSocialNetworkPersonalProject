@@ -1,29 +1,24 @@
 //
-//  RegisterView.swift
+//  ForgotPasswordView.swift
 //  BookProject
 //
-//  Created by Gustavo Ferreira dos Santos on 27/01/25.
+//  Created by Gustavo Ferreira dos Santos on 28/01/25.
 //
 
 import SwiftUI
 
-struct RegisterView: View {
-    @State private var name: String = ""
+struct ForgotPasswordView: View {
     @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var rePassword: String = ""
-    @State private var isPasswordVisible: Bool = false
-    @State private var isRePasswordVisible: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack {
             VStack(spacing: AppSpacing.large) {
-                Text("Cadastre-se")
+                Text("Esqueceu sua senha?")
                     .font(AppFonts.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text("Cadastre-se para acessar todos os recursos e aproveitar uma experiência completa em nosso app.")
+                Text("Não se preocupe! Isso ocorre. Por favor, insira o endereço de e-mail vinculado à sua conta.")
                     .font(AppFonts.body)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .foregroundStyle(AppColors.gray)
@@ -31,27 +26,26 @@ struct RegisterView: View {
             .padding(.vertical, AppSpacing.extraLarge)
 
             Spacer()
+            
+            Image("Illustration-4")
+                .resizable()
+                .scaledToFit()
 
             VStack(spacing: AppSpacing.large) {
-                TextFieldWithDescription(description: "Nome Completo", placeholder: "Seu nome", text: $name)
                 TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
-                CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
-                CustomTextFieldPassword(description: "Confirmar senha", placeholder: "Confirme sua senha sua senha", text: $rePassword)
-            }
 
-            Spacer()
-
-            CustomButton(title: "Registrar") {
-                print("register")
+                CustomButton(title: "Enviar código") {
+                    print("send code")
+                }
             }
             .padding(.vertical, AppSpacing.extraLargeBottomButton)
 
             HStack {
-                Text("Já possui conta?")
+                Text("Voltar para o")
                     .font(AppFonts.body)
                     .foregroundStyle(AppColors.gray)
 
-                TextLinkButton(title: "Fazer login", textColor: AppColors.blue) {
+                TextLinkButton(title: "Login", textColor: AppColors.orange) {
                     print("navigate to login")
                     dismiss()
                 }
@@ -63,5 +57,5 @@ struct RegisterView: View {
 }
 
 #Preview {
-    RegisterView()
+    ForgotPasswordView()
 }

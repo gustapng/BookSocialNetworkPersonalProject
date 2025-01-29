@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol WelcomePresentationLogic {
     func presentStep(_ step: Int)
@@ -22,17 +23,19 @@ final class WelcomePresenter: ObservableObject, WelcomePresentationLogic {
     }
 
     public func presentStep(_ step: Int) {
-        self.currentStep = step
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.currentStep = step
 
-        switch step {
-            case 2:
-                title = "Explore novas possibilidades"
-                description = "Organize, avalie e compartilhe suas leituras com outros amantes de livros."
-            case 3:
-                title = "Pronto para começar?"
-                description = "Vamos juntos explorar o universo da leitura. Está pronto para a jornada?"
-            default:
-                break
+            switch step {
+                case 2:
+                    title = "Explore novas possibilidades"
+                    description = "Organize, avalie e compartilhe suas leituras com outros amantes de livros."
+                case 3:
+                    title = "Pronto para começar?"
+                    description = "Vamos juntos explorar o universo da leitura. Está pronto para a jornada?"
+                default:
+                    break
+            }
         }
     }
     
