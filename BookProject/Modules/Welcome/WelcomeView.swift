@@ -83,9 +83,6 @@ struct WelcomeView: View {
                 .padding(.horizontal, AppSpacing.large)
                 .padding(.bottom, AppSpacing.large)
             }
-//            .onAppear {
-//                presenter.viewDidLoad()
-//            }
             .navigationDestination(isPresented: $navigateToLogin) {
                 LoginView()
             }

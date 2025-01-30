@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EC668D082D4B09F200817E1A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EC668D072D4B09F200817E1A /* FirebaseAuth */; };
+		EC668D0A2D4B0A7900817E1A /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = EC668D092D4B0A7900817E1A /* FirebaseCore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		EC63B26D2D38879C00C8974C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC668D0A2D4B0A7900817E1A /* FirebaseCore in Frameworks */,
+				EC668D082D4B09F200817E1A /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +119,8 @@
 			);
 			name = BookProject;
 			packageProductDependencies = (
+				EC668D072D4B09F200817E1A /* FirebaseAuth */,
+				EC668D092D4B0A7900817E1A /* FirebaseCore */,
 			);
 			productName = BookProject;
 			productReference = EC63B25C2D38879A00C8974C /* BookProject.app */;
@@ -195,6 +204,9 @@
 			);
 			mainGroup = EC63B2532D38879A00C8974C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				EC668D062D4B09F200817E1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EC63B25D2D38879A00C8974C /* Products */;
 			projectDirPath = "";
@@ -558,6 +570,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EC668D062D4B09F200817E1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EC668D072D4B09F200817E1A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC668D062D4B09F200817E1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		EC668D092D4B0A7900817E1A /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC668D062D4B09F200817E1A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EC63B2542D38879A00C8974C /* Project object */;
 }
