@@ -24,10 +24,12 @@ struct CustomTextFieldPassword: View {
                 if isPasswordVisible {
                     TextField("Digite sua senha", text: $text)
                         .disableAutocorrection(true)
+                        .textInputAutocapitalization(.never)
                         .padding()
                 } else {
                     SecureField("Digite sua senha", text: $text)
                         .disableAutocorrection(true)
+                        .textInputAutocapitalization(.never)
                         .padding()
                 }
 

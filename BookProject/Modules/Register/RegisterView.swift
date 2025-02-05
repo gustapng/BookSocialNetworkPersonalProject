@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RegisterView: View {
+    @ObservedObject var presenter: RegisterPresenter
+    var router: RegisterRouter
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
@@ -34,7 +36,7 @@ struct RegisterView: View {
 
             VStack(spacing: AppSpacing.large) {
                 TextFieldWithDescription(description: "Nome Completo", placeholder: "Seu nome", text: $name)
-                TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
+                TextFieldWithDescription(description: "Email", placeholder: "Seu email", isEmail: true, text: $email)
                 CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
                 CustomTextFieldPassword(description: "Confirmar senha", placeholder: "Confirme sua senha sua senha", text: $rePassword)
             }
@@ -42,9 +44,14 @@ struct RegisterView: View {
             Spacer()
 
             CustomButton(title: "Registrar") {
-                print("register")
+                presenter.register(name: name, email: email, password: password, confirmPassword: rePassword)
             }
             .padding(.vertical, AppSpacing.extraLargeBottomButton)
+
+            if let errorMessage = presenter.errorMessage {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+            }
 
             HStack {
                 Text("Já possui conta?")
@@ -52,7 +59,6 @@ struct RegisterView: View {
                     .foregroundStyle(AppColors.gray)
 
                 TextLinkButton(title: "Fazer login", textColor: AppColors.blue) {
-                    print("navigate to login")
                     dismiss()
                 }
             }
@@ -63,5 +69,11 @@ struct RegisterView: View {
 }
 
 #Preview {
-    RegisterView()
+    let interactor = RegisterInteractor()
+    let router = RegisterRouter()
+    let presenter = RegisterPresenter(interactor: interactor, router: router)
+
+    interactor.presenter = presenter
+
+    return RegisterView(presenter: presenter, router: router)
 }
