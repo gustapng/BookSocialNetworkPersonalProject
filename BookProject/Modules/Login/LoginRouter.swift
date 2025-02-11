@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+protocol LoginRouterProtocol {
+    func navigateToRegister() -> RegisterView
+}
+
+final class LoginRouter: LoginRouterProtocol {
+    func navigateToRegister() -> RegisterView {
+        let interactor = RegisterInteractor()
+        let router = RegisterRouter()
+        let presenter = RegisterPresenter(interactor: interactor, router: router)
+        return RegisterView(presenter: presenter, router: router)
+    }
+}

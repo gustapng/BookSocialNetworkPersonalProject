@@ -13,7 +13,9 @@ protocol RegisterPresenterProtocol: AnyObject {
 }
 
 final class RegisterPresenter: ObservableObject, RegisterPresenterProtocol {
+    @Published var error = false
     @Published var errorMessage: String? = nil
+    @Published var isLoading: Bool = false
     var interactor: RegisterInteractor?
     var router: RegisterRouterProtocol?
 
@@ -22,14 +24,18 @@ final class RegisterPresenter: ObservableObject, RegisterPresenterProtocol {
     }
 
     func register(name: String, email: String, password: String, confirmPassword: String) {
+        isLoading = true
         interactor?.register(name: name, email: email, password: password, confirmPassword: confirmPassword)
     }
 
     func presentError(_ message: String) {
+        error = true
         errorMessage = message
+        isLoading = false
     }
 
     func presentSuccess() {
+        isLoading = false
         router?.navigateToHome()
     }
 }

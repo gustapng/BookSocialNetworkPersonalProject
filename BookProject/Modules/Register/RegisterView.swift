@@ -13,9 +13,9 @@ struct RegisterView: View {
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var rePassword: String = ""
+    @State private var confirmPassword: String = ""
     @State private var isPasswordVisible: Bool = false
-    @State private var isRePasswordVisible: Bool = false
+    @State private var isconfirmPasswordVisible: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -38,20 +38,15 @@ struct RegisterView: View {
                 TextFieldWithDescription(description: "Nome Completo", placeholder: "Seu nome", text: $name)
                 TextFieldWithDescription(description: "Email", placeholder: "Seu email", isEmail: true, text: $email)
                 CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
-                CustomTextFieldPassword(description: "Confirmar senha", placeholder: "Confirme sua senha sua senha", text: $rePassword)
+                CustomTextFieldPassword(description: "Confirmar senha", placeholder: "Confirme sua senha sua senha", text: $confirmPassword)
             }
 
             Spacer()
 
-            CustomButton(title: "Registrar") {
-                presenter.register(name: name, email: email, password: password, confirmPassword: rePassword)
+            CustomActionButton(title: "Registrar", isLoading: presenter.isLoading) {
+                presenter.register(name: name, email: email, password: password, confirmPassword: confirmPassword)
             }
             .padding(.vertical, AppSpacing.extraLargeBottomButton)
-
-            if let errorMessage = presenter.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-            }
 
             HStack {
                 Text("Já possui conta?")
@@ -65,6 +60,11 @@ struct RegisterView: View {
         }
         .navigationBarBackButtonHidden(true)
         .padding(.horizontal, AppSpacing.large)
+        .alert("", isPresented: $presenter.error, actions: {
+            Button("OK", role: .cancel) { }
+        }, message: {
+            Text(presenter.errorMessage ?? "Ocorreu um erro.")
+        })
     }
 }
 

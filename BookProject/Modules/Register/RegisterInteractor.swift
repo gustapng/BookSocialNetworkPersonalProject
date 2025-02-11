@@ -22,9 +22,9 @@ final class RegisterInteractor: RegisterInteractorProtocol {
             return
         }
 
-        // TODO: LOADING DURING THE EXECUTION
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
+                print(error)
                 self.presenter?.presentError(error.localizedDescription)
             } else {
                 self.presenter?.presentSuccess()
@@ -34,28 +34,28 @@ final class RegisterInteractor: RegisterInteractorProtocol {
 
     private func validateInputs(name: String, email: String, password: String, confirmPassword: String) -> String? {
         guard !name.isEmpty else {
-            return "O nome é obrigatório."
+            return "Por favor preencha o campo de nome."
         }
 
         guard !email.isEmpty else {
-            return "O e-mail é obrigatório."
+            return "Por favor preencha o campo de e-mail."
         }
 
-        guard ValidationUtils.isValidEmail(email) else {
-            return "O e-mail não é válido."
-        }
+//        guard ValidationUtils.isValidEmail(email) else {
+//            return "Por favor verifique o email, o e-mail passado é inválido."
+//        }
 
         guard !password.isEmpty else {
-            return "A senha é obrigatória."
+            return "Por favor preencha o campo de senha."
         }
 
         guard password == confirmPassword else {
             return "As senhas não coincidem."
         }
 
-        guard ValidationUtils.isPasswordStrong(password) else {
-            return "A senha deve ter pelo menos 8 caracteres e 1 caractere maiúsculo."
-        }
+//        guard ValidationUtils.isPasswordStrong(password) else {
+//            return "A senha deve ter pelo menos 8 caracteres e 1 caractere maiúsculo."
+//        }
 
        return nil
     }
