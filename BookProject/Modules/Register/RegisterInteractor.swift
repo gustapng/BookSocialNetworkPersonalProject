@@ -24,8 +24,8 @@ final class RegisterInteractor: RegisterInteractorProtocol {
 
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
-                print(error)
-                self.presenter?.presentError(error.localizedDescription)
+                let translatedMessage = handleFirebaseError(error)
+                self.presenter?.presentError(translatedMessage)
             } else {
                 self.presenter?.presentSuccess()
             }
@@ -41,10 +41,6 @@ final class RegisterInteractor: RegisterInteractorProtocol {
             return "Por favor preencha o campo de e-mail."
         }
 
-//        guard ValidationUtils.isValidEmail(email) else {
-//            return "Por favor verifique o email, o e-mail passado é inválido."
-//        }
-
         guard !password.isEmpty else {
             return "Por favor preencha o campo de senha."
         }
@@ -52,10 +48,6 @@ final class RegisterInteractor: RegisterInteractorProtocol {
         guard password == confirmPassword else {
             return "As senhas não coincidem."
         }
-
-//        guard ValidationUtils.isPasswordStrong(password) else {
-//            return "A senha deve ter pelo menos 8 caracteres e 1 caractere maiúsculo."
-//        }
 
        return nil
     }

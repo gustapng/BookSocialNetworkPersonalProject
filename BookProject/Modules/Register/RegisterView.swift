@@ -63,7 +63,14 @@ struct RegisterView: View {
         .alert("", isPresented: $presenter.error, actions: {
             Button("OK", role: .cancel) { }
         }, message: {
-            Text(presenter.errorMessage ?? "Ocorreu um erro.")
+            Text(presenter.message ?? "Ocorreu um erro.")
+        })
+        .alert("Sucesso", isPresented: $presenter.success, actions: {
+            Button("OK") {
+                presenter.success = false
+            }
+        }, message: {
+            Text(presenter.message ?? "Cadastro realizado com sucesso!")
         })
     }
 }
