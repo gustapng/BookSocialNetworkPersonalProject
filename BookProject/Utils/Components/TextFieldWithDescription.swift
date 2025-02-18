@@ -10,23 +10,25 @@ import SwiftUI
 struct TextFieldWithDescription: View {
     var description: String
     var placeholder: String
+    var isEmail: Bool = false
     @Binding var text: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(description)
-                .font(.system(size: 17,weight: .medium))
+                .font(.system(size: 17, weight: .medium))
                 .foregroundColor(Color("DarkGray"))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             TextField(placeholder, text: $text)
                 .disableAutocorrection(true)
+                .textInputAutocapitalization(isEmail ? .never : .words)
                 .padding()
                 .frame(height: 50)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color("Gray"), lineWidth: 1)
+                        .stroke(Color("Gray"), lineWidth: 1)
                 )
         }
     }
