@@ -18,7 +18,7 @@ final class RegisterPresenter: ObservableObject, RegisterPresenterProtocol {
     @Published var message: String? = nil
     @Published var isLoading: Bool = false
     var interactor: RegisterInteractor?
-    var router: RegisterRouterProtocol?
+    var router: RegisterRouter?
 
     init(interactor: RegisterInteractor, router: RegisterRouter) {
         self.interactor = interactor
@@ -39,6 +39,5 @@ final class RegisterPresenter: ObservableObject, RegisterPresenterProtocol {
         isLoading = false
         success = true
         message = "Email cadastrado com sucesso, por favor verifique sua caixa de email e autentique a sua nova conta!"
-        router?.navigateToHome()
     }
 }

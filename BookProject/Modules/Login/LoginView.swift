@@ -35,7 +35,7 @@ struct LoginView: View {
                     TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
                     CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
 
-                    NavigationLink(destination: router.navigateToRegister()) {
+                    NavigationLink(destination: router.navigateToRegisterView()) {
                         Text("Esqueceu sua senha?")
                             .foregroundColor(AppColors.orange)
                             .font(AppFonts.body)
@@ -76,7 +76,7 @@ struct LoginView: View {
                         .font(AppFonts.body)
                         .foregroundStyle(AppColors.gray)
 
-                    NavigationLink(destination: router.navigateToRegister()) {
+                    NavigationLink(destination: router.navigateToRegisterView()) {
                         Text("Cadastre-se")
                             .foregroundColor(AppColors.blue)
                             .font(AppFonts.body)

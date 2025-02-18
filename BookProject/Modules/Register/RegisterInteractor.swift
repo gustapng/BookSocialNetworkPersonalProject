@@ -27,7 +27,14 @@ final class RegisterInteractor: RegisterInteractorProtocol {
                 let translatedMessage = handleFirebaseError(error)
                 self.presenter?.presentError(translatedMessage)
             } else {
-                self.presenter?.presentSuccess()
+                authResult?.user.sendEmailVerification(completion: { error in
+                    if let error = error {
+                        let translatedMessage = handleFirebaseError(error)
+                        self.presenter?.presentError("Cadastro realizado, mas ocorreu um erro ao enviar o e-mail de verificação: \(translatedMessage)")
+                    } else {
+                        self.presenter?.presentSuccess()
+                    }
+                })
             }
         }
     }

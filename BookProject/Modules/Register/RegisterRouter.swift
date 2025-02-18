@@ -7,12 +7,6 @@
 
 import Foundation
 
-protocol RegisterRouterProtocol {
-    func navigateToHome()
-}
+final class RegisterRouter {
 
-final class RegisterRouter: RegisterRouterProtocol {
-    func navigateToHome() {
-        // TODO: NAVIGATION TO HOME
-    }
 }
