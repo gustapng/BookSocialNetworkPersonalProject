@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct RegisterView: View {
+    @ObservedObject var presenter: RegisterPresenter
+    var router: RegisterRouter
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var rePassword: String = ""
+    @State private var confirmPassword: String = ""
     @State private var isPasswordVisible: Bool = false
-    @State private var isRePasswordVisible: Bool = false
+    @State private var isconfirmPasswordVisible: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -34,15 +36,15 @@ struct RegisterView: View {
 
             VStack(spacing: AppSpacing.large) {
                 TextFieldWithDescription(description: "Nome Completo", placeholder: "Seu nome", text: $name)
-                TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
+                TextFieldWithDescription(description: "Email", placeholder: "Seu email", isEmail: true, text: $email)
                 CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
-                CustomTextFieldPassword(description: "Confirmar senha", placeholder: "Confirme sua senha sua senha", text: $rePassword)
+                CustomTextFieldPassword(description: "Confirmar senha", placeholder: "Confirme sua senha sua senha", text: $confirmPassword)
             }
 
             Spacer()
 
-            CustomButton(title: "Registrar") {
-                print("register")
+            CustomActionButton(title: "Registrar", isLoading: presenter.isLoading) {
+                presenter.register(name: name, email: email, password: password, confirmPassword: confirmPassword)
             }
             .padding(.vertical, AppSpacing.extraLargeBottomButton)
 
@@ -52,16 +54,33 @@ struct RegisterView: View {
                     .foregroundStyle(AppColors.gray)
 
                 TextLinkButton(title: "Fazer login", textColor: AppColors.blue) {
-                    print("navigate to login")
                     dismiss()
                 }
             }
         }
         .navigationBarBackButtonHidden(true)
         .padding(.horizontal, AppSpacing.large)
+        .alert("", isPresented: $presenter.error, actions: {
+            Button("OK", role: .cancel) { }
+        }, message: {
+            Text(presenter.message ?? "Ocorreu um erro.")
+        })
+        .alert("Sucesso", isPresented: $presenter.success, actions: {
+            Button("OK", role: .cancel) {
+                dismiss()
+            }
+        }, message: {
+            Text(presenter.message ?? "Cadastro realizado com sucesso!")
+        })
     }
 }
 
 #Preview {
-    RegisterView()
+    let interactor = RegisterInteractor()
+    let router = RegisterRouter()
+    let presenter = RegisterPresenter(interactor: interactor, router: router)
+
+    interactor.presenter = presenter
+
+    return RegisterView(presenter: presenter, router: router)
 }
