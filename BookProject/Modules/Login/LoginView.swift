@@ -35,7 +35,7 @@ struct LoginView: View {
                     TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
                     CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
 
-                    NavigationLink(destination: router.navigateToRegisterView()) {
+                    NavigationLink(destination: router.navigateToForgotPasswordView()) {
                         Text("Esqueceu sua senha?")
                             .foregroundColor(AppColors.orange)
                             .font(AppFonts.body)

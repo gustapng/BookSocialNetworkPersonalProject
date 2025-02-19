@@ -18,6 +18,7 @@ func handleFirebaseError(_ error: Error) -> String {
             .weakPassword: "A senha deve ter pelo menos 8 caracteres e 1 caractere maiúsculo.",
             .wrongPassword: "Senha incorreta. Tente novamente.",
             .userNotFound: "Nenhuma conta encontrada com esse email.",
+            .missingEmail: "Um endereço de e-mail deve ser fornecido.",
             .networkError: "Erro de rede. Verifique sua conexão com a internet.",
             .operationNotAllowed: "O serviço não está habilitado. Tente novamente mais tarde.",
         ]
