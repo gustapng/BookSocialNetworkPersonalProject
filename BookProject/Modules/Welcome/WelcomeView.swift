@@ -83,9 +83,15 @@ struct WelcomeView: View {
                 .padding(.horizontal, AppSpacing.large)
                 .padding(.bottom, AppSpacing.large)
             }
-            .navigationDestination(isPresented: $navigateToLogin) {
-                LoginView()
-            }
+            // MARK: TODO - FIX THIS BUTTON TO NAVIGATE
+//            .navigationDestination(isPresented: $navigateToLogin) {
+//                LoginView(presenter: router.navigateToLoginView)
+//            }
+//            NavigationLink(destination: router.navigateToLoginView()) {
+//                Text("Cadastre-se")
+//                    .foregroundColor(AppColors.blue)
+//                    .font(AppFonts.body)
+//            }
         }
     }
 }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
+    @ObservedObject var presenter: LoginPresenter
     var router = LoginRouter()
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var isPasswordVisible: Bool = false
 
     var body: some View {
         NavigationView {
@@ -32,7 +32,7 @@ struct LoginView: View {
                 Spacer()
 
                 VStack(spacing: AppSpacing.large) {
-                    TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
+                    TextFieldWithDescription(description: "Email", placeholder: "Seu email", isEmail: true, text: $email)
                     CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
 
                     NavigationLink(destination: router.navigateToForgotPasswordView()) {
@@ -90,5 +90,11 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    let interactor = LoginInteractor()
+    let router = LoginRouter()
+    let presenter = LoginPresenter(interactor: interactor, router: router)
+
+//    interactor.presenter = presenter
+
+    LoginView(presenter: presenter, router: router)
 }

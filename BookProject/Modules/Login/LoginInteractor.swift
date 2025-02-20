@@ -6,7 +6,22 @@
 //
 
 import Foundation
+import FirebaseAuth
 
-final class LoginInteractor {
+protocol LoginInteractorProtocol {
+    func login(email: String, password: String)
+}
 
+final class LoginInteractor: LoginInteractorProtocol  {
+    weak var presenter: LoginPresenterProtocol?
+
+    func login(email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+           if let error = error {
+               self.presenter?.loginFailed(errorMessage: error.localizedDescription)
+           } else {
+               self.presenter?.loginSuccess()
+           }
+       }
+    }
 }

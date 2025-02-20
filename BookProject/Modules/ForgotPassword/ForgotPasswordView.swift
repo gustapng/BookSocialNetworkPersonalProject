@@ -34,8 +34,7 @@ struct ForgotPasswordView: View {
                 .scaledToFit()
 
             VStack(spacing: AppSpacing.large) {
-                // TODO: the first letter of a placeholder is capitalized - fix this
-                TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
+                TextFieldWithDescription(description: "Email", placeholder: "Seu email", isEmail: true, text: $email)
 
                 CustomActionButton(title: "Registrar", isLoading: presenter.isLoading) {
                     presenter.forgotPassword(email: email)
