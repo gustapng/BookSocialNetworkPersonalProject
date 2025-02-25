@@ -9,9 +9,10 @@ import SwiftUI
 
 struct LoginView: View {
     @ObservedObject var presenter: LoginPresenter
-    var router = LoginRouter()
+    var router: LoginRouter
     @State private var email: String = ""
     @State private var password: String = ""
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationView {
@@ -46,8 +47,8 @@ struct LoginView: View {
                 Spacer()
 
                 VStack(spacing: AppSpacing.large) {
-                    CustomButton(title: "Login") {
-                        print("login")
+                    CustomActionButton(title: "Login", isLoading: presenter.isLoading) {
+                        presenter.login(email: email, password: password)
                     }
 
                     HStack {
@@ -86,6 +87,19 @@ struct LoginView: View {
             .padding(.horizontal, AppSpacing.large)
         }
         .navigationBarBackButtonHidden(true)
+        .alert("", isPresented: $presenter.error, actions: {
+            Button("OK", role: .cancel) { }
+        }, message: {
+            Text(presenter.message ?? "Ocorreu um erro.")
+        })
+        .alert("Sucesso", isPresented: $presenter.success, actions: {
+            Button("OK", role: .cancel) {
+                dismiss()
+            }
+        })
+        .navigationDestination(isPresented: $presenter.navigateToHome) {
+            router.navigateToHome()
+        }
     }
 }
 

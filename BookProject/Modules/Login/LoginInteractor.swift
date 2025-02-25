@@ -18,7 +18,8 @@ final class LoginInteractor: LoginInteractorProtocol  {
     func login(email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
            if let error = error {
-               self.presenter?.loginFailed(errorMessage: error.localizedDescription)
+               let translatedMessage = handleFirebaseError(error)
+               self.presenter?.presentError(translatedMessage)
            } else {
                self.presenter?.loginSuccess()
            }

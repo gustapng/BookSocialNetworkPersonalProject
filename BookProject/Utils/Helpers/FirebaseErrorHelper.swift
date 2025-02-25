@@ -16,7 +16,7 @@ func handleFirebaseError(_ error: Error) -> String {
             .emailAlreadyInUse: "Este email já está sendo usado por outra conta. Tente outro email ou faça login.",
             .invalidEmail: "Por favor verifique o email, o e-mail passado é inválido.",
             .weakPassword: "A senha deve ter pelo menos 8 caracteres e 1 caractere maiúsculo.",
-            .wrongPassword: "Senha incorreta. Tente novamente.",
+            .wrongPassword: "Email ou senha inválidos. Tente novamente.",
             .userNotFound: "Nenhuma conta encontrada com esse email.",
             .missingEmail: "Um endereço de e-mail deve ser fornecido.",
             .networkError: "Erro de rede. Verifique sua conexão com a internet.",

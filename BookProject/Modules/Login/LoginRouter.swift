@@ -9,14 +9,21 @@ import Foundation
 import SwiftUICore
 
 protocol LoginRouterProtocol {
-    func navigateToHome()
+    func navigateToHome() -> HomeView
     func navigateToForgotPasswordView() -> ForgotPasswordView
     func navigateToRegisterView() -> RegisterView
 }
 
 final class LoginRouter: LoginRouterProtocol {
-    func navigateToHome() {
-        
+    func navigateToHome() -> HomeView {
+        print("home")
+        let interactor = HomeInteractor()
+        let router = HomeRouter()
+        let presenter = HomePresenter(interactor: interactor, router: router)
+
+        interactor.presenter = presenter
+
+        return HomeView(presenter: presenter, router: router)
     }
 
     func navigateToRegisterView() -> RegisterView {

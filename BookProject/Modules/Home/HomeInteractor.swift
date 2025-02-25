@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+final class HomeInteractor {
+    weak var presenter: HomePresenter?
+}
