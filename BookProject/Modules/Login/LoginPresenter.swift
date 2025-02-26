@@ -17,13 +17,12 @@ final class LoginPresenter: ObservableObject, LoginPresenterProtocol {
     private let interactor: LoginInteractorProtocol
     private let router: LoginRouterProtocol
 
-    @Published var navigateToHome = false
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     
     @Published var error = false
     @Published var success = false
-    @Published var message: String? = nil
+    @Published var message: String?
 
     init(interactor: LoginInteractorProtocol, router: LoginRouterProtocol) {
         self.interactor = interactor
@@ -33,20 +32,12 @@ final class LoginPresenter: ObservableObject, LoginPresenterProtocol {
     func login(email: String, password: String) {
         self.isLoading = true
         self.errorMessage = nil
-        self.interactor.login(email: email, password: password)
+        interactor.login(email: email, password: password)
     }
 
     func loginSuccess() {
-        // TODO: RESOLVE NAVIGATION TO HOME
-        print("sucesso")
-        DispatchQueue.main.async {
-            self.isLoading = false
-            self.navigateToHome = true
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.navigateToHome = false
-            }
-        }
+        self.isLoading = false
+        self.success = true
     }
     
     func presentError(_ returnMessage: String) {

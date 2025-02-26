@@ -16,7 +16,6 @@ protocol LoginRouterProtocol {
 
 final class LoginRouter: LoginRouterProtocol {
     func navigateToHome() -> HomeView {
-        print("home")
         let interactor = HomeInteractor()
         let router = HomeRouter()
         let presenter = HomePresenter(interactor: interactor, router: router)

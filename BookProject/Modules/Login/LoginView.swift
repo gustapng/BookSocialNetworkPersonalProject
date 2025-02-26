@@ -12,10 +12,11 @@ struct LoginView: View {
     var router: LoginRouter
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var shouldNavigate = false
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Spacer()
 
@@ -73,7 +74,7 @@ struct LoginView: View {
                 .padding(.vertical, AppSpacing.extraLargeBottomButton)
 
                 HStack {
-                    Text("Não possuí conta?")
+                    Text("Não possui conta?")
                         .font(AppFonts.body)
                         .foregroundStyle(AppColors.gray)
 
@@ -85,21 +86,16 @@ struct LoginView: View {
                 }
             }
             .padding(.horizontal, AppSpacing.large)
+            .fullScreenCover(isPresented: $shouldNavigate) {
+                router.navigateToHome()
+            }
+            .onReceive(presenter.$success) { success in
+                if success {
+                    shouldNavigate = true
+                }
+            }
         }
         .navigationBarBackButtonHidden(true)
-        .alert("", isPresented: $presenter.error, actions: {
-            Button("OK", role: .cancel) { }
-        }, message: {
-            Text(presenter.message ?? "Ocorreu um erro.")
-        })
-        .alert("Sucesso", isPresented: $presenter.success, actions: {
-            Button("OK", role: .cancel) {
-                dismiss()
-            }
-        })
-        .navigationDestination(isPresented: $presenter.navigateToHome) {
-            router.navigateToHome()
-        }
     }
 }
 
@@ -107,8 +103,6 @@ struct LoginView: View {
     let interactor = LoginInteractor()
     let router = LoginRouter()
     let presenter = LoginPresenter(interactor: interactor, router: router)
-
-//    interactor.presenter = presenter
 
     LoginView(presenter: presenter, router: router)
 }
