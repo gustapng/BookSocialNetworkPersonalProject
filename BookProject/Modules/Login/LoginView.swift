@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct LoginView: View {
-    var router = LoginRouter()
+    @ObservedObject var presenter: LoginPresenter
+    var router: LoginRouter
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var isPasswordVisible: Bool = false
+    @State private var shouldNavigate = false
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Spacer()
 
@@ -32,10 +34,10 @@ struct LoginView: View {
                 Spacer()
 
                 VStack(spacing: AppSpacing.large) {
-                    TextFieldWithDescription(description: "Email", placeholder: "Seu email", text: $email)
+                    TextFieldWithDescription(description: "Email", placeholder: "Seu email", isEmail: true, text: $email)
                     CustomTextFieldPassword(description: "Senha", placeholder: "Digite sua senha", text: $password)
 
-                    NavigationLink(destination: router.navigateToRegisterView()) {
+                    NavigationLink(destination: router.navigateToForgotPasswordView()) {
                         Text("Esqueceu sua senha?")
                             .foregroundColor(AppColors.orange)
                             .font(AppFonts.body)
@@ -46,8 +48,8 @@ struct LoginView: View {
                 Spacer()
 
                 VStack(spacing: AppSpacing.large) {
-                    CustomButton(title: "Login") {
-                        print("login")
+                    CustomActionButton(title: "Login", isLoading: presenter.isLoading) {
+                        presenter.login(email: email, password: password)
                     }
 
                     HStack {
@@ -72,7 +74,7 @@ struct LoginView: View {
                 .padding(.vertical, AppSpacing.extraLargeBottomButton)
 
                 HStack {
-                    Text("Não possuí conta?")
+                    Text("Não possui conta?")
                         .font(AppFonts.body)
                         .foregroundStyle(AppColors.gray)
 
@@ -84,11 +86,23 @@ struct LoginView: View {
                 }
             }
             .padding(.horizontal, AppSpacing.large)
+            .fullScreenCover(isPresented: $shouldNavigate) {
+                router.navigateToHome()
+            }
+            .onReceive(presenter.$success) { success in
+                if success {
+                    shouldNavigate = true
+                }
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    LoginView()
+    let interactor = LoginInteractor()
+    let router = LoginRouter()
+    let presenter = LoginPresenter(interactor: interactor, router: router)
+
+    LoginView(presenter: presenter, router: router)
 }

@@ -13,31 +13,33 @@ protocol RegisterPresenterProtocol: AnyObject {
 }
 
 final class RegisterPresenter: ObservableObject, RegisterPresenterProtocol {
+    private let interactor: RegisterInteractor
+    private let router: RegisterRouter
+
     @Published var error = false
     @Published var success = false
     @Published var message: String? = nil
     @Published var isLoading: Bool = false
-    var interactor: RegisterInteractor?
-    var router: RegisterRouter?
 
     init(interactor: RegisterInteractor, router: RegisterRouter) {
         self.interactor = interactor
+        self.router = router
     }
 
     func register(name: String, email: String, password: String, confirmPassword: String) {
-        isLoading = true
-        interactor?.register(name: name, email: email, password: password, confirmPassword: confirmPassword)
+        self.isLoading = true
+        self.interactor.register(name: name, email: email, password: password, confirmPassword: confirmPassword)
     }
 
     func presentError(_ returnMessage: String) {
-        error = true
-        message = returnMessage
-        isLoading = false
+        self.error = true
+        self.message = returnMessage
+        self.isLoading = false
     }
 
     func presentSuccess() {
-        isLoading = false
-        success = true
-        message = "Email cadastrado com sucesso, por favor verifique sua caixa de email e autentique a sua nova conta!"
+        self.isLoading = false
+        self.success = true
+        self.message = "Email cadastrado com sucesso, por favor verifique sua caixa de email e autentique a sua nova conta!"
     }
 }

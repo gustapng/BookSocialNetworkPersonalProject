@@ -6,3 +6,24 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseAuth
+
+protocol ForgotPasswordInteractorProtocol {
+    func forgotPassword(email: String)
+}
+
+final class ForgotPasswordInteractor: ForgotPasswordInteractorProtocol {
+    weak var presenter: ForgotPasswordPresenterProtocol?
+
+    func forgotPassword(email: String) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                let translatedMessage = handleFirebaseError(error)
+                self.presenter?.presentError(translatedMessage)
+            } else {
+                self.presenter?.presentSuccess()
+            }
+        }
+    }
+}

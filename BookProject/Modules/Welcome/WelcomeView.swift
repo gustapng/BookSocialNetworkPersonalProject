@@ -84,7 +84,7 @@ struct WelcomeView: View {
                 .padding(.bottom, AppSpacing.large)
             }
             .navigationDestination(isPresented: $navigateToLogin) {
-                LoginView()
+                router.navigateToLoginView()
             }
         }
     }
