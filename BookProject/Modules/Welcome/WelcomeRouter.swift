@@ -7,8 +7,18 @@
 
 import Foundation
 
-class WelcomeRouter {
-    func navigateToLogin() {
-        print("login")
+protocol WelcomeRouterProtocol {
+    func navigateToLoginView() -> LoginView
+}
+
+class WelcomeRouter: WelcomeRouterProtocol {
+    func navigateToLoginView() -> LoginView {
+        let interactor = LoginInteractor()
+        let router = LoginRouter()
+        let presenter = LoginPresenter(interactor: interactor, router: router)
+
+        interactor.presenter = presenter
+
+        return LoginView(presenter: presenter, router: router)
     }
 }
