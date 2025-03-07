@@ -68,7 +68,7 @@ struct LoginView: View {
                     }
 
                     CustomOutlinedButton(title: "Continue com Google", imageName: "google") {
-                        print("login with google")
+                        presenter.loginWithGoogle()
                     }
                 }
                 .padding(.vertical, AppSpacing.extraLargeBottomButton)

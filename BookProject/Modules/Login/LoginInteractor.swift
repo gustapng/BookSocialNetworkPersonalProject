@@ -7,9 +7,12 @@
 
 import Foundation
 import FirebaseAuth
+import GoogleSignIn
+import GoogleSignInSwift
 
 protocol LoginInteractorProtocol {
     func login(email: String, password: String)
+    func loginWithGoogle()
 }
 
 final class LoginInteractor: LoginInteractorProtocol  {
@@ -25,4 +28,30 @@ final class LoginInteractor: LoginInteractorProtocol  {
            }
        }
     }
+    
+    func loginWithGoogle() {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let rootViewController = windowScene.windows.first?.rootViewController else { return }
+
+            GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { result, error in
+                if let error = error {
+                    self.presenter?.presentError("Falha ao autenticar com Google.")
+                    return
+                }
+
+                guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
+
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                               accessToken: user.accessToken.tokenString)
+
+                Auth.auth().signIn(with: credential) { authResult, error in
+                    if let error = error {
+                        self.presenter?.presentError("Falha ao autenticar com Firebase.")
+                        return
+                    }
+
+                    self.presenter?.loginSuccess()
+                }
+            }
+        }
 }
