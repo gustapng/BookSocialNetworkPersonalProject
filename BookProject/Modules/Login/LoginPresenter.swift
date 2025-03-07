@@ -10,6 +10,7 @@ import Foundation
 protocol LoginPresenterProtocol: AnyObject {
     func presentError(_ message: String)
     func login(email: String, password: String)
+    func loginWithGoogle()
     func loginSuccess()
 }
 
@@ -33,6 +34,10 @@ final class LoginPresenter: ObservableObject, LoginPresenterProtocol {
         self.isLoading = true
         self.errorMessage = nil
         interactor.login(email: email, password: password)
+    }
+
+    func loginWithGoogle() {
+        interactor.loginWithGoogle()
     }
 
     func loginSuccess() {

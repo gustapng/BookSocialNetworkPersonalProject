@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+BookProject/Info.plist 
+BookProject/GoogleService-Info.plist
+=======
 *.xcuserstate
 BookProject/GoogleService-Info.plist
 
+>>>>>>> fcbb3b1d2ff6c32ab1a82d1cf6e45c330ad85556
