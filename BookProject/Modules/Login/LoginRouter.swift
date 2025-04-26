@@ -34,7 +34,7 @@ final class LoginRouter: LoginRouterProtocol {
 
         return RegisterView(presenter: presenter, router: router)
     }
-    
+
     func navigateToForgotPasswordView() -> ForgotPasswordView {
         let interactor = ForgotPasswordInteractor()
         let router = ForgotPasswordRouter()

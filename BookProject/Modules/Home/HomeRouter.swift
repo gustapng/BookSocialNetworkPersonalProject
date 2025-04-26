@@ -7,6 +7,18 @@
 
 import Foundation
 
+protocol HomeRouterProtocol {
+    func navigateToHome() -> HomeView
+}
+
 final class HomeRouter {
-    
+    func navigateToHome() -> HomeView {
+        let interactor = HomeInteractor()
+        let router = HomeRouter()
+        let presenter = HomePresenter(interactor: interactor, router: router)
+
+        interactor.presenter = presenter
+
+        return HomeView(presenter: presenter, router: router)
+    }
 }
