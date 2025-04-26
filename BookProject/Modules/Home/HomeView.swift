@@ -58,7 +58,7 @@ struct HomeView: View {
                 }
 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 16) {
+                    HStack(spacing: AppSpacing.medium) {
                         ForEach(1...4, id: \.self) { _ in
                             NavigationLink(destination: router.navigateToHome()) {
                                 VStack(alignment: .leading) {
@@ -70,13 +70,13 @@ struct HomeView: View {
                                             HStack(spacing: 6) {
                                                 Image(systemName: "star.fill")
                                                     .foregroundColor(AppColors.orange)
-                                                    .frame(width: 15, height: 15)
+                                                    .font(.caption)
 
                                                 Text("5.0")
                                                     .foregroundColor(AppColors.orange)
                                                     .font(.caption)
                                             }
-                                            .padding(6)
+                                            .padding(AppSpacing.extraSmall)
                                             .background(Color.white)
                                             .cornerRadius(5)
                                             .shadow(radius: 2)
