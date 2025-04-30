@@ -59,40 +59,47 @@ struct HomeView: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: AppSpacing.medium) {
-                        ForEach(1...4, id: \.self) { _ in
+                        ForEach(presenter.books) { book in
                             NavigationLink(destination: router.navigateToHome()) {
                                 VStack(alignment: .leading) {
-                                    Image("book")
-                                        .resizable()
-                                        .frame(width: 118, height: 169)
-                                        .cornerRadius(5)
-                                        .overlay(
-                                            HStack(spacing: 6) {
-                                                Image(systemName: "star.fill")
-                                                    .foregroundColor(AppColors.orange)
-                                                    .font(.caption)
+                                    AsyncImage(url: URL(string: book.volumeInfo.secureThumbnailURL ?? "")) { image in
+                                        image.resizable()
+                                    } placeholder: {
+                                        Color.gray
+                                    }
+                                    .frame(width: 118, height: 169)
+                                    .cornerRadius(5)
+                                    .overlay(
+                                        Group {
+                                            if let rating = book.volumeInfo.averageRating {
+                                                HStack(spacing: 6) {
+                                                    Image(systemName: "star.fill")
+                                                        .foregroundColor(AppColors.orange)
+                                                        .font(.caption)
 
-                                                Text("5.0")
-                                                    .foregroundColor(AppColors.orange)
-                                                    .font(.caption)
+                                                    Text(String(format: "%.1f", rating))
+                                                        .foregroundColor(AppColors.orange)
+                                                        .font(.caption)
+                                                }
+                                                .padding(AppSpacing.extraSmall)
+                                                .background(Color.white)
+                                                .cornerRadius(5)
+                                                .shadow(radius: 2)
+                                                .padding(.leading, AppSpacing.small)
+                                                .padding(.bottom, AppSpacing.small)
                                             }
-                                            .padding(AppSpacing.extraSmall)
-                                            .background(Color.white)
-                                            .cornerRadius(5)
-                                            .shadow(radius: 2)
-                                            .padding(.leading, AppSpacing.small)
-                                            .padding(.bottom, AppSpacing.small),
-                                            alignment: .bottomLeading
-                                        )
+                                        },
+                                        alignment: .bottomLeading
+                                    )
 
-                                    Text("Sapiens - Uma Breve História da humanidade")
+                                    Text(book.volumeInfo.title)
                                         .font(AppFonts.bookTitle)
                                         .frame(width: 118, alignment: .leading)
                                         .lineLimit(2)
                                         .truncationMode(.tail)
                                         .padding(.vertical, AppSpacing.extraSmall)
 
-                                    Text("Yuval Noah Harari")
+                                    Text(book.volumeInfo.authors?.first ?? "Autor desconhecido")
                                         .font(AppFonts.bookDescription)
                                         .foregroundColor(AppColors.darkGray)
                                         .frame(width: 118, alignment: .leading)
@@ -109,6 +116,9 @@ struct HomeView: View {
             }
         }
         .padding(.horizontal, AppSpacing.large)
+        .onAppear {
+            presenter.onAppear()
+        }
     }
 }
 
